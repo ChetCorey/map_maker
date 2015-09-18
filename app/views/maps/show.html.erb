@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @map.title %>
+</p>
+
+<p>
+  <strong>Country:</strong>
+  <%= @map.country %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @map.state %>
+</p>
+
+<p>
+  <strong>County:</strong>
+  <%= @map.county %>
+</p>
+
+<%= link_to 'Edit', edit_map_path(@map) %> |
+<%= link_to 'Back', maps_path %>

@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
+  resources :maps
+  resources :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  # match '/views/layouts/home' =>  'layouts#home'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
