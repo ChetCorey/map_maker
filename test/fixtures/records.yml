@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  fips: MyString
+  value: MyString
+  user_id: 
+  study_id: 
+  project_id: 
+  map_id: 
+
+two:
+  fips: MyString
+  value: MyString
+  user_id: 
+  study_id: 
+  project_id: 
+  map_id: 

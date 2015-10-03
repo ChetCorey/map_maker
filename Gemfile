@@ -17,6 +17,10 @@ gem 'rails_12factor', group: :production
 gem 'gon'
 gem 'rabl-rails'
 
+# importer
+gem 'roo'
+gem "iconv", "~> 1.0.3"
+
 group :development, :test do
   gem 'byebug'
   gem 'pry-byebug'

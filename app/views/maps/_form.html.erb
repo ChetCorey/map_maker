@@ -23,6 +23,12 @@
     <%= f.label :meta_data %><br>
     <%= f.text_field :meta_data %>
   </div>
+  <div class="field">
+    <%= form_tag import_records_path, multipart: true do %>
+      <%= file_field_tag :file %>
+      <%= submit_tag "Import" %>
+    <% end %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

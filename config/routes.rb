@@ -1,7 +1,13 @@
 Rails.application.routes.draw do
-  resources :projects
+  resources :records
+  resources :studies
   resources :maps
   resources :users
+
+  resources :records do
+    collection { post :import }
+  end
+  root to: 'records#index'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

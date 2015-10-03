@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Fips:</strong>
+  <%= @record.fips %>
+</p>
+
+<p>
+  <strong>Value:</strong>
+  <%= @record.value %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @record.user %>
+</p>
+
+<p>
+  <strong>Study:</strong>
+  <%= @record.study %>
+</p>
+
+<p>
+  <strong>Map:</strong>
+  <%= @record.map %>
+</p>
+
+<%= link_to 'Edit', edit_record_path(@record) %> |
+<%= link_to 'Back', records_path %>
