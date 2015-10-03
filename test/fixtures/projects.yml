@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  study_name: MyString
+  study_date: 
+  map: 
+  user: 
+
+two:
+  study_name: MyString
+  study_date: 
+  map: 
+  user: 
