@@ -13,6 +13,10 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'rails_12factor', group: :production
 
+# JS
+gem 'gon'
+gem 'rabl-rails'
+
 group :development, :test do
   gem 'byebug'
   gem 'pry-byebug'

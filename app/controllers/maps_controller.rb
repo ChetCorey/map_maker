@@ -5,11 +5,14 @@ class MapsController < ApplicationController
   # GET /maps.json
   def index
     @maps = Map.all
+    # gon.meta_data = @maps.last.meta_data
   end
 
   # GET /maps/1
   # GET /maps/1.json
   def show
+     gon.meta_data = @map.meta_data
+    # @m = @map.meta_data
   end
 
   # GET /maps/new
@@ -69,6 +72,6 @@ class MapsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def map_params
-      params.require(:map).permit(:title, :country, :state, :county)
+      params.require(:map).permit(:title, :subtitle, :meta_data)
     end
 end

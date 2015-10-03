@@ -18,7 +18,7 @@ class MapsControllerTest < ActionController::TestCase
 
   test "should create map" do
     assert_difference('Map.count') do
-      post :create, map: { country: @map.country, county: @map.county, state: @map.state, title: @map.title }
+      post :create, map: { county: @map.county, subtitle: @map.subtitle, meta_data: @map.meta_data }
     end
 
     assert_redirected_to map_path(assigns(:map))
@@ -35,7 +35,7 @@ class MapsControllerTest < ActionController::TestCase
   end
 
   test "should update map" do
-    patch :update, id: @map, map: { country: @map.country, county: @map.county, state: @map.state, title: @map.title }
+    patch :update, id: @map, map: { county: @map.county, subtitle: @map.subtitle, meta_data: @map.meta_data }
     assert_redirected_to map_path(assigns(:map))
   end
 

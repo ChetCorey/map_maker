@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+<!-- <p id="notice"><%= notice %></p>
 
 <p>
   <strong>Title:</strong>
@@ -6,19 +6,20 @@
 </p>
 
 <p>
-  <strong>Country:</strong>
-  <%= @map.country %>
+  <strong>Subtitle:</strong>
+  <%= @map.subtitle %>
 </p>
 
 <p>
-  <strong>State:</strong>
-  <%= @map.state %>
-</p>
-
-<p>
-  <strong>County:</strong>
-  <%= @map.county %>
+  <strong>Meta Data:</strong>
+  <%= @map.meta_data %>
 </p>
 
 <%= link_to 'Edit', edit_map_path(@map) %> |
-<%= link_to 'Back', maps_path %>
+<%= link_to 'Back', maps_path %> -->
+
+<script src="http://code.highcharts.com/maps/highmaps.js"></script>
+<script src="http://code.highcharts.com/maps/modules/exporting.js"></script>
+<script src="http://code.highcharts.com/mapdata/countries/us/us-nc-all.js"></script>
+
+<div id="container"></div>
