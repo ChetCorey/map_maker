@@ -1,13 +1,22 @@
 Rails.application.routes.draw do
   resources :records
   resources :studies
-  resources :maps
+  resources :maps, except: :show
   resources :users
 
-  resources :records do
+  resources :maps do
     collection { post :import }
   end
-  root to: 'records#index'
+
+  get 'maps/:id/:state_map' => 'maps#show', :as => 'state_map'
+
+  get 'maps/state_maps/:id' => 'map#show'
+
+
+  # resources :records do
+  #   collection { post :import }
+  # end
+  # root to: 'records#index'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

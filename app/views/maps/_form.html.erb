@@ -19,16 +19,12 @@
     <%= f.label :subtitle %><br>
     <%= f.text_field :subtitle %>
   </div>
+
   <div class="field">
     <%= f.label :meta_data %><br>
-    <%= f.text_field :meta_data %>
+    <%= f.file_field :meta_data %>
   </div>
-  <div class="field">
-    <%= form_tag import_records_path, multipart: true do %>
-      <%= file_field_tag :file %>
-      <%= submit_tag "Import" %>
-    <% end %>
-  </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>

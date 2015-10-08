@@ -19,16 +19,5 @@
   <tr>
     <td><%= record.fips %></td>
     <td><%= record.value %></td>
-    <td><%= record.user.name %></td>
-    <td><%= record.study.title %></td>
-    <td><%= record.map.title %></td>
   </tr>
-<% end %>
-</table>
-
-<h2>Import Records</h2>
-
-<%= form_tag import_records_path, multipart: true do %>
-  <%= file_field_tag :file %>
-  <%= submit_tag "Import" %>
 <% end %>

@@ -11,13 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151003080849) do
+ActiveRecord::Schema.define(version: 20151003235307) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "codes", force: :cascade do |t|
+    t.string   "state_code"
+    t.string   "state_fips_code"
+    t.string   "county_fips_code"
+    t.string   "fips"
+    t.string   "ansi_code"
+    t.string   "gu_name"
+    t.string   "gu_size"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
   create_table "maps", force: :cascade do |t|
     t.integer  "user_id"
+    t.string   "country"
+    t.string   "state"
     t.string   "title"
     t.string   "subtitle"
     t.jsonb    "meta_data"
@@ -39,6 +53,7 @@ ActiveRecord::Schema.define(version: 20151003080849) do
 
   create_table "records", force: :cascade do |t|
     t.string   "fips"
+    t.string   "name"
     t.string   "value"
     t.integer  "user_id"
     t.integer  "study_id"

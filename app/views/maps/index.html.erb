@@ -17,7 +17,7 @@
       <tr>
         <td><%= map.title %></td>
         <td><%= map.subtitle %></td>
-        <td><%= map.meta_data %></td>
+        <td><%= map.meta_data.to_s.truncate(200) %></td>
         <td><%= link_to 'Show', map %></td>
         <td><%= link_to 'Edit', edit_map_path(map) %></td>
         <td><%= link_to 'Destroy', map, method: :delete, data: { confirm: 'Are you sure?' } %></td>

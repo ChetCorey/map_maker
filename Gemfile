@@ -22,6 +22,7 @@ gem 'roo'
 gem "iconv", "~> 1.0.3"
 
 group :development, :test do
+  gem 'faker'
   gem 'byebug'
   gem 'pry-byebug'
   gem 'web-console', '~> 2.0'
