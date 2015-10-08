@@ -1,6 +1,7 @@
 class MapsController < ApplicationController
   before_action :set_map, only: [:show, :edit, :update, :destroy, :state_maps]
   before_action :state_codes, only: :create
+  before_action :set_gon
 
   # GET /maps
   # GET /maps.json
@@ -114,6 +115,10 @@ class MapsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_map
       @map = Map.find(params[:id])
+    end
+
+    def set_gon
+      gon.maping == nil
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
