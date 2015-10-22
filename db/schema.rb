@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20151003235307) do
     t.string   "state"
     t.string   "title"
     t.string   "subtitle"
+    t.string   "kind"
     t.jsonb    "meta_data"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

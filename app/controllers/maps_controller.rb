@@ -1,7 +1,8 @@
 class MapsController < ApplicationController
-  before_action :set_map, only: [:show, :edit, :update, :destroy, :state_maps]
-  before_action :state_codes, only: :create
+  before_action :set_map, only: [:show, :edit, :update, :destroy, :states, :us_states, :us_counties]
+  before_action :state_codes, only: [:create, :new]
   before_action :set_gon
+  before_action :map_type
 
   # GET /maps
   # GET /maps.json
@@ -13,7 +14,7 @@ class MapsController < ApplicationController
   # GET /maps/1
   # GET /maps/1.json
   def show
-    gon.maping = @map
+    gon.mapping = @map
     vals = @map.meta_data.collect{ |x| x["value"] }.sort.uniq
     # gon.color_spots = [
     #   vals.first,
@@ -33,12 +34,24 @@ class MapsController < ApplicationController
     Map.import(params[:file])
   end
 
-  def state_maps
-    gon.maping = @map
+  def states
+    gon.mapping = @map
+    vals = @map.meta_data.collect{ |x| x["value"] }.sort.uniq
+  end
+
+  def us_states
+    gon.mapping = @map
+    vals = @map.meta_data.collect{ |x| x["value"] }.sort.uniq
+  end
+
+  def us_counties
+    gon.mapping = @map
+    vals = @map.meta_data.collect{ |x| x["value"] }.sort.uniq
   end
 
   # GET /maps/new
   def new
+    @maps = Map.all
     @map = Map.new
   end
 
@@ -51,7 +64,10 @@ class MapsController < ApplicationController
   def create
     @map = Map.new(map_params)
     @file = @map.meta_data
+    # binding.pry
+
     @meta_data = []
+    @kind = @map.kind
     fips_to_hc_key
     @map.meta_data = @meta_data
     respond_to do |format|
@@ -90,23 +106,48 @@ class MapsController < ApplicationController
   end
 
   def state_codes
-    @state_codes = { "02": "ak", "01": "al", "05": "ar", "60": "as", "04": "az", "06": "ca", "08": "co", "09": "ct", "11": "dc", "10": "de", "12": "fl", "13": "ga", "66": "gu", "15": "hi", "19": "ia", "16": "id", "17": "il", "18": "in", "20": "ks", "21": "ky", "22": "la", "25": "ma", "24": "md", "23": "me", "26": "mi", "27": "mn", "29": "mo", "28": "ms", "30": "mt", "37": "nc", "38": "nd", "31": "ne", "33": "nh", "34": "nj", "35": "nm", "32": "nv", "36": "ny", "39": "oh", "40": "ok", "41": "or", "42": "pa", "72": "pr", "44": "ri", "45": "sc", "46": "sd", "47": "tn", "48": "tx", "49": "ut", "51": "va", "78": "vi", "50": "vt", "53": "wa", "55": "wi", "54": "wv", "56": "wy" }
+    @state_codes_letter_key = {"": "", "al": "01", "ak": "02", "az": "04", "ar": "05", "ca": "06", "co": "08", "ct": "09", "de": "10", "dc": "11", "fl": "12", "ga": "13", "hi": "15", "id": "16", "il": "17", "in": "18", "ia": "19", "ks": "20", "ky": "21", "la": "22", "me": "23", "md": "24", "ma": "25", "mi": "26", "mn": "27", "ms": "28", "mo": "29", "mt": "30", "ne": "31", "nv": "32", "nh": "33", "nj": "34", "nm": "35", "ny": "36", "nc": "37", "nd": "38", "oh": "39", "ok": "40", "or": "41", "pa": "42", "ri": "44", "sc": "45", "sd": "46", "tn": "47", "tx": "48", "ut": "49", "vt": "50", "va": "51", "wa": "53", "wv": "54", "wi": "55", "wy": "56", "as": "60", "gu": "66", "pr": "72", "vi": "78" }
+    @state_codes_number_key = {"": "", "01": "al", "02": "ak", "04": "az", "05": "ar", "06": "ca", "08": "co", "09": "ct", "10": "de", "11": "dc", "12": "fl", "13": "ga", "15": "hi", "16": "id", "17": "il", "18": "in", "19": "ia", "20": "ks", "21": "ky", "22": "la", "23": "me", "24": "md", "25": "ma", "26": "mi", "27": "mn", "28": "ms", "29": "mo", "30": "mt", "31": "ne", "32": "nv", "33": "nh", "34": "nj", "35": "nm", "36": "ny", "37": "nc", "38": "nd", "39": "oh", "40": "ok", "41": "or", "42": "pa", "44": "ri", "45": "sc", "46": "sd", "47": "tn", "48": "tx", "49": "ut", "50": "vt", "51": "va", "53": "wa", "54": "wv", "55": "wi", "56": "wy", "60": "as", "66": "gu", "72": "pr", "78": "vi" }
   end
 
   def fips_to_hc_key
-    CSV.foreach(@file.path, headers: true) do |row|
-      value = row["value"]
-      fip = row["fips"]
-
-      if fip.length == 5
-        county_code = fip.slice!(-3, 3)
-        state_code = @state_codes[fip.to_sym]
-        @meta_data << {"hc-key":"us-#{state_code}-#{county_code}", "value": value.to_i}
-      else  # fip.length == 4
-        county_code = fip.slice!(-3, 3)
-        state_number = "0#{fip}"
-        state_code = @state_codes[state_number.to_sym]
-        @meta_data << {"hc-key":"us-#{state_code}-#{county_code}", "value": value.to_i}
+    if @kind == 'County with States'
+      CSV.foreach(@file.path, headers: true) do |row|
+        value = row["value"]
+        fip = row["fips"]
+        state_number = "0#{fip}"[-2, 2]
+        state_code = @state_codes_number_key[state_number.to_sym]
+        @meta_data << {"hc-key":"us-#{state_code}", "value": value.to_i}
+      end
+    elsif @kind == 'States with Counties'
+      CSV.foreach(@file.path, headers: true) do |row|
+        value = row["value"]
+        fip = row["fips"]
+        if fip.length == 5
+          county_code = fip.slice!(-3, 3)
+          state_code = @state_codes_number_key[fip.to_sym]
+          @meta_data << {"hc-key":"us-#{state_code}-#{county_code}", "value": value.to_i}
+        else  # fip.length == 4
+          county_code = fip.slice!(-3, 3)
+          state_number = "0#{fip}"
+          state_code = @state_codes_number_key[state_number.to_sym]
+          @meta_data << {"hc-key":"us-#{state_code}-#{county_code}", "value": value.to_i}
+        end
+      end
+    elsif @kind == 'County with States with Counties'
+      CSV.foreach(@file.path, headers: true) do |row|
+        value = row["value"]
+        fip = row["fips"]
+        if fip.length == 5
+          county_code = fip.slice!(-3, 3)
+          state_code = @state_codes_number_key[fip.to_sym]
+          @meta_data << {"hc-key":"us-#{state_code}-#{county_code}", "value": value.to_i}
+        else  # fip.length == 4
+          county_code = fip.slice!(-3, 3)
+          state_number = "0#{fip}"
+          state_code = @state_codes_number_key[state_number.to_sym]
+          @meta_data << {"hc-key":"us-#{state_code}-#{county_code}", "value": value.to_i}
+        end
       end
     end
   end
@@ -117,12 +158,16 @@ class MapsController < ApplicationController
       @map = Map.find(params[:id])
     end
 
+    def map_type
+      @map_type = [ 'County with States', 'States with Counties', 'County with States with Counties']
+    end
+
     def set_gon
-      gon.maping == nil
+      gon.mapping == nil
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def map_params
-      params.require(:map).permit(:title, :subtitle, :meta_data, :file, :state_maps)
+      params.require(:map).permit(:title, :subtitle, :meta_data, :file, :state, :kind)
     end
 end

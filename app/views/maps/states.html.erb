@@ -1,0 +1,10 @@
+<%= link_to 'Edit', edit_map_path(@map) %> |
+<%= link_to 'Back', maps_path %>
+
+<div id="map">
+  <script src="http://code.highcharts.com/maps/highmaps.js"></script>
+  <script src="http://code.highcharts.com/maps/modules/exporting.js"></script>
+  <script src="http://code.highcharts.com/mapdata/countries/us/us-<%= @map.state_code %>-all.js"></script>
+
+  <div id="container"></div>
+</div>

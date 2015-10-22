@@ -1,0 +1,95 @@
+<%= link_to 'Edit', edit_map_path(@map) %> |
+<%= link_to 'Back', maps_path %>
+
+<script src="http://code.highcharts.com/maps/highmaps.js"></script>
+<script src="http://code.highcharts.com/maps/modules/exporting.js"></script>
+<script src="http://code.highcharts.com/mapdata/countries/us/us-all.js"></script>
+
+<div id="container"></div>
+
+  <%= javascript_tag do %>
+  $(function () {
+   var data, map, subtitle, title, lines;
+
+   map = gon.mapping;
+   data = map.meta_data;
+   title = map.title;
+   subtitle = map.subtitle;
+
+  // Initiate the chart
+  $('#container').highcharts('Map', {
+      title: {
+          text: title
+      },
+
+      subtitle: {
+          text: subtitle
+      },
+
+      mapNavigation: {
+          enabled: true,
+          buttonOptions: {
+              verticalAlign: 'bottom'
+          }
+      },
+
+      plotOptions: {
+          map: {
+              nullColor: 'white'
+          }
+      },
+
+      colorAxis: {
+          minColor: '#ffffff',
+          maxColor: '#000000',
+          gridLineWidth: 2,
+          gridLineColor: 'white'
+      },
+
+      exporting: {
+          type: 'image/jpeg'
+      },
+
+
+      mapNavigation: {
+          enabled: true,
+          buttonOptions: {
+              verticalAlign: 'bottom'
+          }
+      },
+
+      colorAxis: {
+          minColor: '#ffffff',
+          maxColor: '#000000',
+          gridLineWidth: 2,
+          gridLineColor: 'white'
+      },
+
+      series: [{
+          data: data,
+          type: 'map',
+          borderWidth: '0',
+          mapData: Highcharts.maps['countries/us/us-all'],
+          joinBy: 'hc-key',
+          borderColor: 'clear',
+          states: {
+              normal: {
+                  animation: true
+              },
+              hover: {
+                  color: '#7BAFD4'
+              }
+          }
+      },
+      {
+          data: lines,
+          type: 'mapline',
+          name: 'Separators',
+          color: '#999999',
+          showInLegend: true,
+          enableMouseTracking: false
+      }]
+  });
+});
+
+  <% end %>

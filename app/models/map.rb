@@ -1,4 +1,6 @@
 class Map < ActiveRecord::Base
+  attr_accessor :states, :us_states, :us_counties
+
   belongs_to :user
   belongs_to :study
   has_many :records
@@ -12,6 +14,5 @@ class Map < ActiveRecord::Base
       state_code = fip
       @meta_data << {"hc-key":"us-#{state_code}-#{county_code}", "value": value.to_i}
     end
-
   end
 end

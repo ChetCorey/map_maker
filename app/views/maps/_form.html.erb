@@ -10,7 +10,6 @@
       </ul>
     </div>
   <% end %>
-
   <div class="field">
     <%= f.label :title %><br>
     <%= f.text_field :title %>
@@ -20,8 +19,16 @@
     <%= f.text_field :subtitle %>
   </div>
   <div class="field">
+    <%= f.label 'Map Type' %><br>
+    <%= f.select :kind, @map_type %>
+  </div>
+  <div class="field">
     <%= f.label :meta_data %><br>
     <%= f.file_field :meta_data %>
+  </div>
+  <div class="field">
+    <%= f.label 'States' %><br>
+    <%= f.select :state, @state_codes_letter_key %>
   </div>
   <div class="actions">
     <%= f.submit %>

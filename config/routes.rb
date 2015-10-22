@@ -6,11 +6,18 @@ Rails.application.routes.draw do
 
   resources :maps do
     collection { post :import }
+    member do
+     get 'states'
+     get 'us_states'
+     get 'us_counties'
+    end
   end
 
-  get 'maps/:id/:state_map' => 'maps#show', :as => 'state_map'
+  # get 'maps/:id/:state' => 'maps#show', :as => 'state'
+  # get 'maps/:id/:us_states' => 'maps#show', :as => 'us_states'
+  # get 'maps/:id/:us_counties' => 'maps#show', :as => 'us_counties'
 
-  get 'maps/state_maps/:id' => 'map#show'
+  # get 'maps/state_maps/:id' => 'map#show'
 
 
   # resources :records do

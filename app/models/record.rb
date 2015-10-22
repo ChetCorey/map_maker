@@ -6,8 +6,6 @@ class Record < ActiveRecord::Base
   def self.import(file)
     @meta_data = []
     CSV.foreach(file.path, headers: true) do |row|
-      binding.pry
-
       county_code = fip.slice!(-3, 3)
       state_code = fip
       # "hc-key":"us-nc-001","value":1912

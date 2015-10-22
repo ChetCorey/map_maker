@@ -6,6 +6,7 @@ class CreateMaps < ActiveRecord::Migration
       t.string :state
       t.string :title
       t.string :subtitle
+      t.string :kind
       t.jsonb  :meta_data
 
       t.timestamps null: false
