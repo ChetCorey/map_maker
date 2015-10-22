@@ -7,73 +7,86 @@
 
 <div id="container"></div>
 
-  <%= javascript_tag do %>
-  $(function() {
-      var data, map, subtitle, title, lines;
+<%= javascript_tag do %>
+  $(function () {
+   var data, map, subtitle, title, lines;
 
-      map = gon.maping;
-      data = map.meta_data;
-      title = map.title;
-      subtitle = map.subtitle;
+   map = gon.mapping;
+   data = map.meta_data;
+   title = map.title;
+   subtitle = map.subtitle;
+   lines = Highcharts.geojson(Highcharts.maps['countries/us/us-all-all'], 'mapline');
 
-      // MapLines
-      lines = Highcharts.geojson(Highcharts.maps['countries/us/us-all-all'], 'mapline');
 
-      // Initiate the chart
-      $('#container').highcharts('Map', {
+  // Initiate the chart
+    $('#container').highcharts('Map', {
         title: {
-          text: title
+            text: title
         },
 
         subtitle: {
-          text: subtitle
+            text: subtitle
         },
 
         mapNavigation: {
-          enabled: true,
-          buttonOptions: {
-            verticalAlign: 'bottom'
-          }
+            enabled: true,
+            buttonOptions: {
+                verticalAlign: 'bottom'
+            }
         },
 
         plotOptions: {
-          map: {
-            nullColor: 'white'
-          }
+            map: {
+                nullColor: 'white'
+            }
         },
 
         colorAxis: {
-          minColor: '#F0F0F0',
-          maxColor: '#000000',
-          gridLineWidth: 2,
-          gridLineColor: 'white'
+            minColor: '#eeeeee',
+            maxColor: '#000000',
+            gridLineWidth: 2,
+            gridLineColor: 'white'
+        },
+
+        exporting: {
+            type: 'image/jpeg'
+        },
+
+
+        mapNavigation: {
+            enabled: true,
+            buttonOptions: {
+                verticalAlign: 'bottom'
+            }
         },
 
         series: [{
-          data: data,
-          type: 'map',
-          borderWidth: '0',
-          mapData: Highcharts.maps['countries/us/us-all-all'],
-          joinBy: 'hc-key',
-          borderColor: 'clear',
-          states: {
-            normal: {
-              animation: true
-            },
-            hover: {
-              color: '#888888'
-              }
+            data: data,
+            type: 'map',
+            borderWidth: '.1',
+            mapData: Highcharts.maps['countries/us/us-all-all'],
+            joinBy: 'hc-key',
+            borderColor: '#999999',
+            states: {
+                normal: {
+                    animation: true
+                },
+                hover: {
+                    color: '#7BAFD4'
+                }
             }
-          },
-          {
+        },
+
+        {
             data: lines,
+            borderWidth: '.5',
             type: 'mapline',
             name: 'Separators',
             color: '#999999',
             showInLegend: true,
             enableMouseTracking: false
-          }]
-      });
-    })
+        }]
+    });
+  });
 
-  <% end %>
+<% end %>

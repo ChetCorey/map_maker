@@ -1,6 +1,6 @@
 class MapsController < ApplicationController
   before_action :set_map, only: [:show, :edit, :update, :destroy, :states, :us_states, :us_counties]
-  before_action :state_codes, only: [:create, :new]
+  before_action :state_codes, only: [:create, :new, :edit]
   before_action :set_gon
   before_action :map_type
 
@@ -14,8 +14,11 @@ class MapsController < ApplicationController
   # GET /maps/1
   # GET /maps/1.json
   def show
+
     gon.mapping = @map
     vals = @map.meta_data.collect{ |x| x["value"] }.sort.uniq
+    redirect_to "/maps/#{@map.id}/#{map_kind}"
+
     # gon.color_spots = [
     #   vals.first,
     #   color_span(vals, 1),
@@ -84,6 +87,14 @@ class MapsController < ApplicationController
   # PATCH/PUT /maps/1
   # PATCH/PUT /maps/1.json
   def update
+    @file = @map.meta_data
+    # binding.pry
+
+    @meta_data = []
+    @kind = @map.kind
+    fips_to_hc_key
+    @map.meta_data = @meta_data
+
     respond_to do |format|
       if @map.update(map_params)
         format.html { redirect_to @map, notice: 'Map was successfully updated.' }
@@ -156,6 +167,16 @@ class MapsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_map
       @map = Map.find(params[:id])
+    end
+
+    def map_kind
+      if @map.kind == 'County with States'
+        return 'us_states'
+      elsif @map.kind == 'States with Counties'
+        return 'states'
+      elsif @map.kind == 'County with States with Counties'
+        return 'us_counties'
+      end
     end
 
     def map_type
