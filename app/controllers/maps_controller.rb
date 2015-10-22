@@ -122,7 +122,7 @@ class MapsController < ApplicationController
   end
 
   def fips_to_hc_key
-    if @kind == 'County with States'
+    if @kind == 'Country with States'
       CSV.foreach(@file.path, headers: true) do |row|
         value = row["value"]
         fip = row["fips"]
@@ -145,7 +145,7 @@ class MapsController < ApplicationController
           @meta_data << {"hc-key":"us-#{state_code}-#{county_code}", "value": value.to_i}
         end
       end
-    elsif @kind == 'County with States with Counties'
+    elsif @kind == 'Country with Counties'
       CSV.foreach(@file.path, headers: true) do |row|
         value = row["value"]
         fip = row["fips"]
@@ -170,17 +170,17 @@ class MapsController < ApplicationController
     end
 
     def map_kind
-      if @map.kind == 'County with States'
+      if @map.kind == 'Country with States'
         return 'us_states'
       elsif @map.kind == 'States with Counties'
         return 'states'
-      elsif @map.kind == 'County with States with Counties'
+      elsif @map.kind == 'Country with Counties'
         return 'us_counties'
       end
     end
 
     def map_type
-      @map_type = [ 'County with States', 'States with Counties', 'County with States with Counties']
+      @map_type = [ 'Country with States', 'States with Counties', 'Country with Counties']
     end
 
     def set_gon
